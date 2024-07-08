@@ -173,7 +173,7 @@ public class TenantAwareBasicAuthenticationFilter extends BasicAuthenticationFil
         super.onSuccessfulAuthentication(request, response, authResult);
         AppUser user = (AppUser) authResult.getPrincipal();
 
-        if (userNotificationService.hasUnreadUserNotifications(user.getId())) {
+        if (!user.hasSpecificPermissionTo("CANNOT_CHECK_FOR_UNREAD_NOTIFICATIONS") && userNotificationService.hasUnreadUserNotifications(user.getId())) {
             response.addHeader("X-Notification-Refresh", "true");
         } else {
             response.addHeader("X-Notification-Refresh", "false");
