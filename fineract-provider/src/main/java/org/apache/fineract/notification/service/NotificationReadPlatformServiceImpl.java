@@ -21,7 +21,6 @@ package org.apache.fineract.notification.service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.fineract.infrastructure.core.service.Page;
 import org.apache.fineract.infrastructure.core.service.PaginationHelper;
@@ -94,10 +93,9 @@ public class NotificationReadPlatformServiceImpl implements NotificationReadPlat
     }
 
     private boolean checkForUnreadNotifications(Long appUserId) {
-        String sql = "SELECT id, notification_id as notificationId, user_id as userId, is_read as isRead, created_at "
-                + "as createdAt FROM notification_mapper WHERE user_id = ? AND is_read = false";
-        List<NotificationMapperData> notificationMappers = this.jdbcTemplate.query(sql, notificationMapperRow, appUserId);
-        return notificationMappers.size() > 0;
+        String sql = "SELECT COUNT(*) FROM notification_mapper WHERE user_id = ? AND is_read = false";
+        Integer sqlCount = this.jdbcTemplate.queryForObject(sql, Integer.class, appUserId);
+        return sqlCount != null && sqlCount > 0;
     }
 
     @Override
