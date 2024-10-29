@@ -44,6 +44,8 @@ buildscript {
         npmRepository = 'https://npm.pkg.github.com'
     }
     repositories {
+        mavenCentral()
+        maven { url "https://archiva-repository.apache.org/archiva/repository/all-public/" }
         maven { url 'https://plugins.gradle.org/m2/' }
         mavenCentral()
         maven { url "https://archiva-repository.apache.org/archiva/repository/all-public/" }
